@@ -24,12 +24,14 @@ class RoomController extends Controller
 {
     public function slots(Room $room, SlotsRequest $request): array
     {
-        $bookings = Booking::whereRoomId($room->id)->get();
-        $start_period = Carbon::parse('9:00');
-        $end_period = Carbon::parse('18:00');
+        $bookings = Booking::whereRoomId($room->id)->where('start_time', '>', $request->validated('date'))->get();
+
+        $start_period = Carbon::parse($request->validated('date') . '09:00');
+        $end_period = Carbon::parse($request->validated('date'). '18:00');
 
         foreach (CarbonPeriod::create($start_period, '30 minutes', $end_period) as $date) {
-            if (!($bookings->contains('start_time', $date) || $bookings->contains('end_time', $date))) {
+            $carbon_date = Carbon::parse($date)->toDateTimeString('minute');
+            if (!($bookings->contains('start_time', $carbon_date) || $bookings->contains('end_time', $carbon_date))) {
                 $hours[] = $date->format('H:i');
             }
         }

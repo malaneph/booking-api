@@ -11,6 +11,7 @@ Route::controller(UserController::class)->group(function () {
 })->middleware('auth:sanctum');
 
 Route::prefix('/bookings')->controller(BookingController::class)->group(function () {
+    Route::get('/', 'index');
     Route::post('/', 'create');
     Route::prefix('/{booking}')->group(function () {
         Route::delete('/', 'delete');
