@@ -16,10 +16,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Booking\CreateRequest;
 use App\Http\Requests\Booking\IndexRequest;
+use App\Http\Resources\BookingResource;
 use App\Models\Booking;
 use App\Services\BookingService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 /**
  *
@@ -49,11 +50,13 @@ class BookingController extends Controller
      *
      * @param  IndexRequest  $request
      *
-     * @return Collection|Booking
+     * @return AnonymousResourceCollection
      */
-    public function index(IndexRequest $request): Collection|Booking
+    public function index(IndexRequest $request): AnonymousResourceCollection
     {
-        return Booking::where('start_time', '>', $request->validated('date'))->get();
+        $result = Booking::where('start_time', '>', $request->validated('date'))->get();
+
+        return BookingResource::collection($result);
     }
 
     /**
