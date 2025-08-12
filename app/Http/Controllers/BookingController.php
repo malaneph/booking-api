@@ -14,10 +14,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Bookings\CreateRequest;
+use App\Http\Requests\Booking\CreateRequest;
+use App\Http\Requests\Booking\IndexRequest;
 use App\Models\Booking;
 use App\Services\BookingService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 /**
  *
@@ -40,6 +42,18 @@ class BookingController extends Controller
      */
     public function __construct(protected readonly BookingService $bookingService)
     {
+    }
+
+    /**
+     * Список бронирований
+     *
+     * @param  IndexRequest  $request
+     *
+     * @return Collection|Booking
+     */
+    public function index(IndexRequest $request): Collection|Booking
+    {
+        return Booking::where('start_time', '>', $request->validated('date'))->get();
     }
 
     /**

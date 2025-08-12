@@ -12,7 +12,7 @@
  * @link      https://github.com/malaneph/booking-api
  */
 
-namespace App\Http\Requests\Bookings;
+namespace App\Http\Requests\Booking;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
