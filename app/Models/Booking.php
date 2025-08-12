@@ -42,12 +42,4 @@ class Booking extends Model
     {
         return $this->belongsTo(Room::class);
     }
-
-    protected function casts()
-    {
-        return [
-            'start_time' => Carbon::class,
-            'end_time' => Carbon::class,
-        ];
-    }
 }
